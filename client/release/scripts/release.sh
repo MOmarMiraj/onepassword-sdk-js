@@ -16,6 +16,9 @@ SDK_RELEASE="${2}"
 # Function to execute upon exit
 cleanup() {
     echo "Performing cleanup tasks..."
+    # Go to the root of the repo to ensure all files are restored
+    cd "$(git rev-parse --show-toplevel)"
+    # restores all files
     git checkout -- .
     exit 1   
 }
