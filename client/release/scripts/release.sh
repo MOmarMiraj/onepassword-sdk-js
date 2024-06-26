@@ -17,7 +17,9 @@ cleanup() {
     echo "Performing cleanup tasks..."
 
     # Revert all the updates to package.json back to main branch versions
-    git checkout main -- wasm/package.json
+    if [ "${core_modified}" = "true" ]; then 
+        git checkout main -- wasm/package.json
+    fi 
     git checkout main -- client/package.json
     git checkout main -- examples/package.json
 
