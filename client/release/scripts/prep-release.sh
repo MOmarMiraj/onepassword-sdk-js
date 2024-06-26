@@ -29,9 +29,15 @@ cleanup() {
 # Set the trap to call the cleanup function on exit
 trap cleanup SIGINT
 
-# Whether its beta or stable
+# Determine whether its beta or stable release
 printf "Is this a beta or stable release? (beta/stable)"
 read SDK_RELEASE
+
+# Validation of SDK_RELEASE
+if [ "$SDK_RELEASE" != "beta" ] && [ "$SDK_RELEASE" != "stable" ]; then
+    echo "Invalid input. Please enter 'beta' or 'stable'."
+    exit 1
+fi
 
 export SDK_RELEASE
 
