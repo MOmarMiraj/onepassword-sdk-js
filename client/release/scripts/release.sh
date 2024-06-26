@@ -2,8 +2,6 @@
 
 # Helper script to prepare a JS Release for the SDKs.
 
-set -e
-
 version_sdk_core=$(< client/release/version-sdk-core)
 
 # Extract build and version_sdk number from the configuration.ts
