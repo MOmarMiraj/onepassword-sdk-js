@@ -29,6 +29,12 @@ cleanup() {
 # Set the trap to call the cleanup function on exit
 trap cleanup SIGINT
 
+# Whether its beta or stable
+printf "Is this a beta or stable release? (beta/stable)"
+read SDK_RELEASE
+
+export SDK_RELEASE
+
 enforce_latest_code() {
     if [[ -n "$(git status --porcelain=v1)" ]]; then
         echo "ERROR: working directory is not clean."
@@ -111,6 +117,7 @@ update_and_validate_version
 update_and_validate_build
 
 sed -e "s/{{ build }}/$build/" -e "s/{{ version }}/$version_publish/" "$version_template_file" > "$output_version_file"
+
 
 printf "Press ENTER to edit the CHANGELOG in your default editor...\n"
 read -r _ignore

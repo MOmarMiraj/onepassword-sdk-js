@@ -15,14 +15,7 @@ core_modified="${1}"
 # Function to execute upon exit
 cleanup() {
     echo "Performing cleanup tasks..."
-
-    # Revert all the updates to package.json back to main branch versions
-    if [ "${core_modified}" = "true" ]; then 
-        git checkout main -- wasm/package.json
-    fi 
-    git checkout main -- client/package.json
-    git checkout main -- examples/package.json
-
+    git revert .
     exit 1   
 }
 
@@ -46,7 +39,7 @@ if [ "$core_modified" = "true" ]; then
     # Update core version number to the latest
     npm version "${version_sdk_core}"
     # Check if all files pertaining to sdk core are included
-    npm publish --dry-run --tag beta
+    npm publish --dry-run --tag "${SDK_RELEASE}"
 
     read -p "Is everything good? (y/n) " files_are_ok
 
@@ -116,7 +109,7 @@ git commit -am "Update package.json's"
 # Create release tag
 git tag -a -s  "v${version_sdk}" -m "${version_sdk}"
 
-# Push the tag to the branch
+# Push the commits and tags to the branch
 git push --atomic origin "${branch}" "v${version_sdk}"
 
 gh release create "v${version_sdk}" --title "Release ${version_sdk}" --notes "${release_notes}" --repo github.com/MOmarMiraj/onepassword-sdk-js
