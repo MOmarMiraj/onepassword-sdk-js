@@ -16,7 +16,7 @@ SDK_RELEASE="${2}"
 # Function to execute upon exit
 cleanup() {
     echo "Performing cleanup tasks..."
-    git restore '*.json'
+    git checkout -- .
     exit 1   
 }
 
