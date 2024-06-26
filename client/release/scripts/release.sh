@@ -16,7 +16,7 @@ SDK_RELEASE="${2}"
 # Function to execute upon exit
 cleanup() {
     echo "Performing cleanup tasks..."
-    git revert .
+    git restore .
     exit 1   
 }
 
@@ -48,7 +48,7 @@ if [ "$core_modified" = "true" ]; then
         y)
             # npm publish --tag "${SDK_RELEASE}"
             # npm dist-tag add "@1password/sdk-core@$version_sdk_core" latest
-            echo "Publishing and tagging completed."
+            echo "Publishing and tagging on NPM completed."
             ;;
         n)
             echo "Files are incorrect, Exiting..."
