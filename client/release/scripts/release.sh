@@ -11,6 +11,7 @@ version_sdk=$(awk -F "['\"]" '/SDK_VERSION =/{print $2}' "client/release/version
 release_notes=$(< client/release/RELEASE-NOTES)
 
 core_modified="${1}"
+SDK_RELEASE="${2}"
 
 # Function to execute upon exit
 cleanup() {
@@ -45,7 +46,7 @@ if [ "$core_modified" = "true" ]; then
 
     case "$files_are_ok" in
         y)
-            # npm publish --tag beta
+            # npm publish --tag "${SDK_RELEASE}"
             # npm dist-tag add "@1password/sdk-core@$version_sdk_core" latest
             echo "Publishing and tagging completed."
             ;;
