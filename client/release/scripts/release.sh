@@ -107,11 +107,13 @@ fi
             ;;
     esac
 
+# Add the updated files (package.jsons)
+git add .
 # Create release tag
 git tag -a -s  "v${version_sdk}" -m "${version_sdk}"
 
 # Push the tag to the branch
-git push origin tag "v${version_sdk}"
+git push --follow-tags
 
 gh release create "v${version_sdk}" --title "Release ${version_sdk}" --notes "${release_notes}" --repo github.com/MOmarMiraj/onepassword-sdk-js
 
