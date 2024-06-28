@@ -114,5 +114,5 @@ git tag -a -s  "v${version_sdk}" -m "${version_sdk}"
 # Push the commits and tags to the branch
 git push --atomic origin "${branch}" "v${version_sdk}"
 
-gh release create "v${version_sdk}" --title "Release ${version_sdk}" --notes "${release_notes}" --repo github.com/1Password/onepassword-sdk-js
+gh release create "v${version_sdk}" --title "Release ${version_sdk}" --notes "${release_notes}" --repo github.com/MOmarMiraj/onepassword-sdk-js
 
