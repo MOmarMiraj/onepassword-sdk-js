@@ -48,8 +48,8 @@ if [ "$core_modified" = "true" ]; then
 
     case "$files_are_ok" in
         y)
-            npm publish --tag "${RELEASE_CHANNEL}"
-            npm dist-tag add "@1password/sdk-core@$version_sdk_core" latest
+            # npm publish --tag "${RELEASE_CHANNEL}"
+            # npm dist-tag add "@1password/sdk-core@$version_sdk_core" latest
             echo "Publishing and tagging on NPM completed."
             ;;
         n)
@@ -83,8 +83,8 @@ fi
 
     case "$files_are_ok" in
         y)
-            npm run publish-prod RELEASE_CHANNEL="${RELEASE_CHANNEL}"
-            npm dist-tag add @1password/sdk@${version_sdk} latest
+            # npm run publish-prod RELEASE_CHANNEL="${RELEASE_CHANNEL}"
+            # npm dist-tag add @1password/sdk@${version_sdk} latest
 
             # Update dependency in examples to run off the latest SDK
             cd ../examples && npm install @1password/sdk --save
