@@ -48,7 +48,7 @@ if [ "$core_modified" = "true" ]; then
 
     case "$files_are_ok" in
         y)
-            npm publish --tag "${RELEASE_CHANNEL}"
+            npm publish @omarmiraj/npm_test@$version_sdk_core  --tag "${RELEASE_CHANNEL}"
             npm dist-tag add "@omarmiraj/npm_test@$version_sdk_core" latest
             echo "Publishing and tagging on NPM completed."
             ;;
