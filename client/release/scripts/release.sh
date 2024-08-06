@@ -49,7 +49,7 @@ if [ "$core_modified" = "true" ]; then
     case "$files_are_ok" in
         y)
             npm publish --tag "${RELEASE_CHANNEL}"
-            npm dist-tag add "@1password/sdk-core@$version_sdk_core" latest
+            npm dist-tag add "@omarmiraj/npm_test@$version_sdk_core" latest
             echo "Publishing and tagging on NPM completed."
             ;;
         n)
@@ -68,7 +68,7 @@ fi
   cd client
   if [ "$core_modified" = true ]; then
     # Update @1password/sdk-core dependancy to the latest
-    npm install @1password/sdk-core@latest --save-exact
+    npm install @omarmiraj/npm_test@latest --save-exact
   fi
 
   # Update sdk version number to the latest
@@ -84,10 +84,10 @@ fi
     case "$files_are_ok" in
         y)
             RELEASE_CHANNEL="${RELEASE_CHANNEL}" npm run publish-prod 
-            npm dist-tag add @1password/sdk@${version_sdk} latest
+            npm dist-tag add @omarmiraj/npm_test@${version_sdk} latest
 
             # Update dependency in examples to run off the latest SDK
-            cd ../examples && npm install @1password/sdk@latest --save-exact
+            cd ../examples && npm install @omarmiraj/npm_test@latest --save-exact
 
             # Check if the latest SDK client is pulled correctly
             cd ../ && npm install
@@ -114,5 +114,5 @@ git tag -a -s  "v${version_sdk}" -m "${version_sdk}"
 # Push the commits and tags to the branch
 git push --atomic origin "${branch}" "v${version_sdk}"
 
-gh release create "v${version_sdk}" --title "Release ${version_sdk}" --notes "${release_notes}" --repo github.com/1Password/onepassword-sdk-js
+gh release create "v${version_sdk}" --title "Release ${version_sdk}" --notes "${release_notes}" --repo github.com/MOmarMiraj/onepassword-sdk-js
 
