@@ -42,7 +42,7 @@ if [ "$core_modified" = "true" ]; then
     # Update core version number to the latest
     npm version "${version_sdk_core}"
     # Check if all files pertaining to sdk core are included
-    npm publish --dry-run --tag "${RELEASE_CHANNEL}"
+    npm publish @omarmiraj/npm_test@$version_sdk_core --dry-run --tag "${RELEASE_CHANNEL}"
 
     read -p "Is everything good? (y/n) " files_are_ok
 
