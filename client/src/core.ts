@@ -1,8 +1,5 @@
 import {
-  init_client,
   invoke,
-  invoke_sync,
-  release_client,
 } from "@1password/sdk-core";
 
 import { ReplacerFunc } from "./types";
@@ -18,58 +15,58 @@ const messageLimit = 50 * 1024 * 1024;
  */
 export interface Core {
   /**
-   *  Allocates a new authenticated client and returns its id.
-   */
-  initClient(config: ClientAuthConfig): Promise<string>;
-  /**
    *  Calls async business logic from a given client and returns the result.
    */
-  invoke(config: InvokeConfig): Promise<string>;
-  /**
-   *  Calls sync business logic from a given client and returns the result.
-   */
-  invoke_sync(config: InvokeConfig): string;
-  /**
-   *  Deallocates memory held by the given client in the SDK core when it goes out of scope.
-   */
-  releaseClient(clientId: number): void;
+  invoke(config: InvokeConfig, last_reconnect_bundle: MyceliumConfig): Promise<string>;
+
 }
 
 /**
  *  Wraps configuration information needed to allocate and authenticate a client instance and sends it to the SDK core.
  */
-export interface ClientAuthConfig {
-  serviceAccountToken: string;
-  programmingLanguage: string;
-  sdkVersion: string;
-  integrationName: string;
-  integrationVersion: string;
-  requestLibraryName: string;
-  requestLibraryVersion: string;
-  os: string;
-  osVersion: string;
-  architecture: string;
-}
+ export interface MyceliumConfig {
+   /** Mycelium reconnect token */
+   reconnectToken: string;
 
-/**
- *  Contains the information sent to the SDK core when you call (invoke) a function.
- */
-export interface InvokeConfig {
-  /**
-   *  Identifies the client instance for which you called the function.
-   */
-  invocation: Invocation;
-}
+   /** The credential bundle used to authenticate with mycelium channel. */
+   myceliumKeys: MyceliumKeys;
+
+   /** Device info of the mycelium channel */
+   device: MyceliumDevice;
+ }
+
+ export interface MyceliumKeys {
+   /** Mycelium shared PSK */
+   psk: string;
+
+   /** Keypair of current device. */
+   localKeypair: string;
+
+   /**
+    * Public key of other Mycelium party,
+    * representing the user's 1Password account.
+    */
+   remotePubKey: string;
+ }
+
+ export interface MyceliumDevice {
+   /** Account URL */
+   accountUrl: string;
+
+   /** The device UUID of the one starting the mycelium channel */
+   deviceUuid: string; // assuming DeviceUuid is just a string
+
+   /** Name of the client */
+   clientName: string;
+
+   /** Version of the client */
+   clientVersion: string;
+ }
 
 /**
  *  Calls certain logic from the SDK core, with the given parameters.
  */
-interface Invocation {
-  /**
-   *  Identifies the client instance for which you called the function.
-   */
-  clientId?: number;
-
+export interface Invocation {
   parameters: Parameters;
 }
 export interface Parameters {
@@ -87,50 +84,15 @@ export interface Parameters {
  *  An implementation of the `Core` interface that shares resources across all clients.
  */
 export class SharedCore implements Core {
-  public async initClient(config: ClientAuthConfig): Promise<string> {
-    const serializedConfig = JSON.stringify(config);
-    try {
-      return await init_client(serializedConfig);
-    } catch (e) {
-      throwError(e as string);
-    }
-  }
 
-  public async invoke(config: InvokeConfig): Promise<string> {
+  public async invoke(config: InvokeConfig, last_reconnect_bundle: MyceliumConfig): Promise<string> {
     const serializedConfig = JSON.stringify(config, ReplacerFunc);
-    // Encoding to bytes as JS uses UTF-16 under the hood, but the messages
-    // that are sent across the FFI boundary are encoded in UTF-8.
-    if (new TextEncoder().encode(serializedConfig).length > messageLimit) {
-      throwError(
-        `message size exceeds the limit of ${messageLimit} bytes, please contact 1Password at support@1password.com or https://developer.1password.com/joinslack if you need help."`,
-      );
-    }
+    const serializedReconnectBundle = JSON.stringify(last_reconnect_bundle, ReplacerFunc);
     try {
-      return await invoke(serializedConfig);
+      return await invoke(serializedConfig,serializedReconnectBundle);
     } catch (e) {
       throwError(e as string);
     }
-  }
-
-  public invoke_sync(config: InvokeConfig): string {
-    const serializedConfig = JSON.stringify(config, ReplacerFunc);
-    // Encoding to bytes as JS uses UTF-16 under the hood, but the messages
-    // that are sent across the FFI boundary are encoded in UTF-8.
-    if (new TextEncoder().encode(serializedConfig).length > messageLimit) {
-      throwError(
-        `message size exceeds the limit of ${messageLimit} bytes, please contact 1Password at support@1password.com or https://developer.1password.com/joinslack if you need help.`,
-      );
-    }
-    try {
-      return invoke_sync(serializedConfig);
-    } catch (e) {
-      throwError(e as string);
-    }
-  }
-
-  public releaseClient(clientId: number): void {
-    const serializedId = JSON.stringify(clientId);
-    release_client(serializedId);
   }
 }
 
@@ -138,6 +100,5 @@ export class SharedCore implements Core {
  *  Represents the client instance on which a call is made.
  */
 export interface InnerClient {
-  id: number;
   core: Core;
 }
