@@ -2,7 +2,6 @@ import {
   invoke,
 } from "@1password/sdk-core";
 
-import { ReplacerFunc } from "./types";
 import { throwError } from "./errors";
 
 // In empirical tests, we determined that maximum message size that can cross the FFI boundary
@@ -17,7 +16,7 @@ export interface Core {
   /**
    *  Calls async business logic from a given client and returns the result.
    */
-  invoke(config: InvokeConfig, last_reconnect_bundle: MyceliumConfig): Promise<string>;
+  invoke(config: MyCeliumParameters, last_reconnect_bundle: MyceliumConfig): Promise<string>;
 
 }
 
@@ -67,9 +66,10 @@ export interface Core {
  *  Calls certain logic from the SDK core, with the given parameters.
  */
 export interface Invocation {
-  parameters: Parameters;
+  parameters: MyCeliumParameters;
 }
-export interface Parameters {
+
+export interface MyCeliumParameters {
   /**
    *  Functionality name
    */
@@ -85,9 +85,9 @@ export interface Parameters {
  */
 export class SharedCore implements Core {
 
-  public async invoke(config: InvokeConfig, last_reconnect_bundle: MyceliumConfig): Promise<string> {
-    const serializedConfig = JSON.stringify(config, ReplacerFunc);
-    const serializedReconnectBundle = JSON.stringify(last_reconnect_bundle, ReplacerFunc);
+  public async invoke(config: MyCeliumParameters, last_reconnect_bundle: MyceliumConfig): Promise<string> {
+    const serializedConfig = JSON.stringify(config);
+    const serializedReconnectBundle = JSON.stringify(last_reconnect_bundle);
     try {
       return await invoke(serializedConfig,serializedReconnectBundle);
     } catch (e) {
