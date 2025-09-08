@@ -30,8 +30,8 @@ export interface Core {
    /** The credential bundle used to authenticate with mycelium channel. */
    myceliumKeys: MyceliumKeys;
 
-   /** Device info of the mycelium channel */
-   device: MyceliumDevice;
+   /** Account URL */
+   accountUrl: string;
  }
 
  export interface MyceliumKeys {
@@ -46,20 +46,6 @@ export interface Core {
     * representing the user's 1Password account.
     */
    remotePubKey: string;
- }
-
- export interface MyceliumDevice {
-   /** Account URL */
-   accountUrl: string;
-
-   /** The device UUID of the one starting the mycelium channel */
-   deviceUuid: string; // assuming DeviceUuid is just a string
-
-   /** Name of the client */
-   clientName: string;
-
-   /** Version of the client */
-   clientVersion: string;
  }
 
 /**

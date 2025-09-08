@@ -560,9 +560,14 @@ export const ReplacerFunc = (key: string, value: unknown): unknown => {
 
 export interface InvokeResponse {
   response: SecureRemoteAutofillResponse;
-  new_reconnect_bundle: MyceliumConfig
+  new_reconnect_bundle: MyceliumConfig;
 }
 
 export type SecureRemoteAutofillResponse =
-  | { type: "success"; value: string }
+  | {
+      type: "success";
+      data: {
+        serializedItem: string;
+      };
+    }
   | { type: "failure" };
