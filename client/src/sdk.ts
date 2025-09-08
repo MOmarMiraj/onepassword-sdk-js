@@ -1,2 +1,3 @@
 export { getForWebsite } from "./items";
-export { SecureRemoteAutofillResponse } from "./types";
+export { SecureRemoteAutofillResponse, InvokeResponse } from "./types";
+export { MyceliumConfig } from "./core";
