@@ -1,14 +1,14 @@
 import sdk from "@1password/sdk";
 
 let myceliumConfig = {
+  reconnectToken: "XnbQubMEv9DfkwZwwntpww",
   myceliumKeys: {
-    psk: "AZyfHIuGbOhPKrLkpuCPtaJ6HD28tt4hw0JSieFy5LU",
+    psk: "gmfTCX6pp1_Rn7UWfHLDh2y1IqPLbgN7kdLNNpOhPeE",
     localKeypair:
-      "no-6QxAZLKdWN1SdUYmHjtit74kqz0-hzg8lRB3n5vlYvV5kkDEgfeSQDv9zuIXa8lxp0pweUWrjoXQrT1SBQQ",
-    remotePubKey: "FXAjChqbEFR9MaM8PUymBL4FKsvf7seweRnAqZpoTlQ",
+      "sdB38zhFVOmIyiqSYlo36LN9358V5bmTk54p5ps9NmnuuJmZ_3OR28_c3KL5DP9NWe5W-zh8Ibij3bhj0sEmKg",
+    remotePubKey: "9S8Pqc-q2d83fIJhJABC92k-fXtpXzcND42P86Go5yQ",
   },
-  signInAddress: "https://aicanadapoc.b5dev.ca",
-  reconnectToken: "PSIE1C7xiDREWB-ULZmZ9Q",
+  signInAddress: "https://momstestingcompany.b5test.com",
 };
 
 async function getWebsite(website) {
@@ -25,10 +25,10 @@ async function getWebsite(website) {
 }
 
 async function run() {
-  console.log("Getting website for aircanada!");
-  // await getWebsite("www.aircanada.com");
-  await getWebsite("https://www.autofill.me");
-  await getWebsite("www.autofill.me");
+  // console.log("Getting website for aircanada!");
+  await getWebsite("www.aircanada.com");
+  // await getWebsite("https://www.autofill.me");
+  // await getWebsite("www.te.me");
   await getWebsite("autofill.me");
 }
 
