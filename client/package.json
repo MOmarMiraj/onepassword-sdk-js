@@ -26,6 +26,7 @@
   "main": "./dist/sdk.js",
   "types": "./dist/sdk.d.ts",
   "dependencies": {
+    "@1password/sdk": "file:",
     "@1password/sdk-core": "../wasm"
   },
   "devDependencies": {

@@ -1,7 +1,6 @@
-import init, {
+import {
   invoke,
 } from "@1password/sdk-core";
-
 import { throwError } from "./errors";
 
 // In empirical tests, we determined that maximum message size that can cross the FFI boundary
@@ -72,7 +71,6 @@ export interface MyCeliumParameters {
 export class SharedCore implements Core {
 
   public async invoke(config: MyCeliumParameters, last_reconnect_bundle: MyceliumConfig): Promise<string> {
-    await init();
     const serializedConfig = JSON.stringify(config);
     const serializedReconnectBundle = JSON.stringify(last_reconnect_bundle);
     try {
