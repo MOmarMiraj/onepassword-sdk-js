@@ -1,6 +1,4 @@
-import init, {
-  invoke,
-} from "@1password/sdk-core";
+import init, { invoke } from "@1password/agentic-autofill-sdk-core";
 
 import { throwError } from "./errors";
 
@@ -16,37 +14,39 @@ export interface Core {
   /**
    *  Calls async business logic from a given client and returns the result.
    */
-  invoke(config: MyCeliumParameters, last_reconnect_bundle: MyceliumConfig): Promise<string>;
-
+  invoke(
+    config: MyCeliumParameters,
+    last_reconnect_bundle: MyceliumConfig,
+  ): Promise<string>;
 }
 
 /**
  *  Wraps configuration information needed to allocate and authenticate a client instance and sends it to the SDK core.
  */
- export interface MyceliumConfig {
-   /** Mycelium reconnect token */
-   reconnectToken: string;
+export interface MyceliumConfig {
+  /** Mycelium reconnect token */
+  reconnectToken: string;
 
-   /** The credential bundle used to authenticate with mycelium channel. */
-   myceliumKeys: MyceliumKeys;
+  /** The credential bundle used to authenticate with mycelium channel. */
+  myceliumKeys: MyceliumKeys;
 
-   /** Account URL */
-   accountUrl: string;
- }
+  /** Account URL */
+  accountUrl: string;
+}
 
- export interface MyceliumKeys {
-   /** Mycelium shared PSK */
-   psk: string;
+export interface MyceliumKeys {
+  /** Mycelium shared PSK */
+  psk: string;
 
-   /** Keypair of current device. */
-   localKeypair: string;
+  /** Keypair of current device. */
+  localKeypair: string;
 
-   /**
-    * Public key of other Mycelium party,
-    * representing the user's 1Password account.
-    */
-   remotePubKey: string;
- }
+  /**
+   * Public key of other Mycelium party,
+   * representing the user's 1Password account.
+   */
+  remotePubKey: string;
+}
 
 /**
  *  Calls certain logic from the SDK core, with the given parameters.
@@ -70,13 +70,15 @@ export interface MyCeliumParameters {
  *  An implementation of the `Core` interface that shares resources across all clients.
  */
 export class SharedCore implements Core {
-
-  public async invoke(config: MyCeliumParameters, last_reconnect_bundle: MyceliumConfig): Promise<string> {
+  public async invoke(
+    config: MyCeliumParameters,
+    last_reconnect_bundle: MyceliumConfig,
+  ): Promise<string> {
     await init();
     const serializedConfig = JSON.stringify(config);
     const serializedReconnectBundle = JSON.stringify(last_reconnect_bundle);
     try {
-      return await invoke(serializedConfig,serializedReconnectBundle);
+      return await invoke(serializedConfig, serializedReconnectBundle);
     } catch (e) {
       throwError(e as string);
     }

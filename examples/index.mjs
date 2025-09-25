@@ -1,14 +1,13 @@
 import sdk from "@1password/sdk";
 
 let myceliumConfig = {
-  reconnectToken: "XnbQubMEv9DfkwZwwntpww",
+  reconnectToken: "token",
   myceliumKeys: {
-    psk: "gmfTCX6pp1_Rn7UWfHLDh2y1IqPLbgN7kdLNNpOhPeE",
-    localKeypair:
-      "sdB38zhFVOmIyiqSYlo36LN9358V5bmTk54p5ps9NmnuuJmZ_3OR28_c3KL5DP9NWe5W-zh8Ibij3bhj0sEmKg",
-    remotePubKey: "9S8Pqc-q2d83fIJhJABC92k-fXtpXzcND42P86Go5yQ",
+    psk: "psk",
+    localKeypair: "key-pair",
+    remotePubKey: "pubkey",
   },
-  signInAddress: "https://momstestingcompany.b5test.com",
+  signInAddress: "sign-in-address",
 };
 
 async function getWebsite(website) {
@@ -25,10 +24,9 @@ async function getWebsite(website) {
 }
 
 async function run() {
-  // console.log("Getting website for aircanada!");
   await getWebsite("www.aircanada.com");
-  // await getWebsite("https://www.autofill.me");
-  // await getWebsite("www.te.me");
+  await getWebsite("https://www.autofill.me");
+  await getWebsite("www.fakewebsite.me");
   await getWebsite("autofill.me");
 }
 
