@@ -1,11 +1,7 @@
 import init, { invoke } from "@1password/agentic-autofill-sdk-core";
+import wasmModule from "@1password/agentic-autofill-sdk-core/web/core_bg.wasm";
 
 import { throwError } from "./errors";
-
-// In empirical tests, we determined that maximum message size that can cross the FFI boundary
-// is ~64MB. Past this limit, the wasm-bingen FFI will throw an error and the program will crash.
-// We set the limit to 50MB to be safe, to be reconsidered upon further testing.
-const messageLimit = 50 * 1024 * 1024;
 
 /**
  *  Exposes the SDK core to the host JS SDK.
@@ -74,7 +70,7 @@ export class SharedCore implements Core {
     config: MyCeliumParameters,
     last_reconnect_bundle: MyceliumConfig,
   ): Promise<string> {
-    await init();
+    await init(wasmModule);
     const serializedConfig = JSON.stringify(config);
     const serializedReconnectBundle = JSON.stringify(last_reconnect_bundle);
     try {
