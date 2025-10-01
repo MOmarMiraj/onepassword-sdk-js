@@ -1,6 +1,6 @@
 {
   "name": "@1password/agentic-autofill-sdk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The 1Password Agentic Autofill SDK allows autofill with Agentic Browsers",
   "scripts": {
     "build": "tsc",
@@ -26,7 +26,7 @@
   "main": "./dist/sdk.js",
   "types": "./dist/sdk.d.ts",
   "dependencies": {
-    "@1password/agentic-autofill-sdk-core": "0.0.1"
+    "@1password/agentic-autofill-sdk-core": "0.0.2"
   },
   "devDependencies": {
     "@1password/eslint-config": "^4.0.0",
